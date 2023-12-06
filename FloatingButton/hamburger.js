@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import posed from "react-pose";
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
 const ToggleWrapper = styled.span`
   cursor: pointer;
   display: flex;
-  height: ${(props) => props.size / 2}px;
+  size: ${(props) => props.size / 2}px;
   position: relative;
   width: ${(props) => props.size / 2}px;
   flex-direction: column;
@@ -14,57 +14,65 @@ const ToggleWrapper = styled.span`
   justify-content: space-around;
 `;
 
-const Line = styled.div`
-  height: ${(props) => props.size * 0.05}px;
+const Line = styled(motion.div)`
+  size: ${(props) => props.size * 0.05}px;
   width: ${(props) => props.size * 0.5}px;
   border: white;
   border-radius: ${(props) => props.size * 0.05}px;
   background-color: ${(props) => props.color};
 `;
 
-const Line1 = posed(Line)({
+const animationVariants = {
   open: {
-    y: (props) => props.size / 6,
+    y: (size) => size / 6,
     rotate: 45,
+    width: (size) => size * 0.5
   },
-  closed: { y: 0, rotate: 0 },
-});
-
-const Line2 = posed(Line)({
-  open: {
+  closed: {
+    y: 0,
     rotate: 0,
-    width: 0,
+    width: (size) => size * 0.5
   },
-  closed: { width: (props) => props.size * 0.5, rotate: 0 },
-});
+  hidden: {
+    rotate: 0,
+    width: 0
+  }
+};
 
-const Line3 = posed(Line)({
-  open: {
-    y: (props) => -props.size / 6,
-    rotate: -45,
-  },
-  closed: { y: 0, rotate: 0 },
-});
-
-const MenuToggle = ({ size, color }) => {
-  const [open, setOpen] = useState(false);
+const MenuToggle = ({ size, color, expanded }) => {
   return (
-    <ToggleWrapper onClick={() => setOpen(true)} size={size}>
-      <Line1 pose={open ? "open" : "closed"} size={size} color={color} />
-      <Line2 pose={open ? "open" : "closed"} size={size} color={color} />
-      <Line3 pose={open ? "open" : "closed"} size={size} color={color} />
+    <ToggleWrapper size={size}>
+      <Line
+        variants={animationVariants}
+        animate={expanded ? "open" : "closed"}
+        custom={size}
+        style={{ backgroundColor: color }}
+      />
+      <Line
+        variants={animationVariants}
+        animate={expanded ? "hidden" : "closed"}
+        custom={size}
+        style={{ backgroundColor: color }}
+      />
+      <Line
+        variants={animationVariants}
+        animate={expanded ? "open" : "closed"}
+        custom={size}
+        style={{ backgroundColor: color }}
+      />
     </ToggleWrapper>
   );
 };
 
 MenuToggle.defaultProps = {
   size: 60,
-  color: "white",
+  color: "white"
 };
 
 MenuToggle.propTypes = {
   size: PropTypes.number,
   color: PropTypes.string,
+  expanded: PropTypes.bool.isRequired
 };
 
 export default MenuToggle;
