@@ -10,13 +10,13 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-pose": "^4.0.10",
-    "react-scripts": "3.4.1",
-    "styled-components": "^5.1.0"
-  },
+"dependencies": {
+  "react": "^18.0.0",
+  "react-dom": "^18.0.0",
+  "framer-motion": "^5.0.0", // Example version, use the latest
+  "styled-components": "^5.1.0"
+},
+
   "babel": {
     "presets": [
       "@babel/react"
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/na6im/react-floating-button"
+    "url": "https://github.com/JimboJimbabwe/ReactButtons"
   },
   "author": "Nassim AMOKRANE",
   "keywords": [
